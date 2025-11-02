@@ -9,6 +9,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
+module.exports = app;
+
 let otps = {};
 
 app.post("/send-otp", async (req, res) => {
@@ -45,4 +47,4 @@ app.post("/verify-otp", (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+//app.listen(3000, () => console.log("Server running on port 3000"));
