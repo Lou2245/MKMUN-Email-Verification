@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Verification</title>
+  <style>
+    body {font-family: Arial, sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background-color:#f0f2f5;}
+    .container {background:white; padding:40px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); width:300px;}
+    input {width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:6px;}
+    button {width:100%; padding:10px; border:none; background-color:#007bff; color:white; font-weight:bold; border-radius:6px; cursor:pointer;}
+    button:hover {background-color:#0056b3;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Email Verification</h2>
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email (@matrikiran.online)" required />
+    <button id="sendOtp">Send OTP</button>
+  </div>
+
+  <script>
+    document.getElementById("sendOtp").addEventListener("click", async () => {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      if (!email.endsWith("@matrikiran.online")) {
+        alert("Only @matrikiran.online emails are allowed.");
+        return;
+      }
+      const res = await fetch("/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+      if (res.ok) {
+        localStorage.setItem("user_name", name);
+        localStorage.setItem("user_email", email);
+        window.location.href = "/verify.html";
+      } else {
+        alert("Failed to send OTP.");
+      }
+    });
+  </script>
+</body>
+</html>
